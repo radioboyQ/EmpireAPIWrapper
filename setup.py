@@ -13,6 +13,8 @@ setup(
     license = "Apache v2.0",
     keywords = "Powershell Empire",
     url = "https://github.com/radioboyQ/EmpireAPIWrapper",
-    packages=['requests'],
+    install_requires=[
+        'Requests',
+    ],
     long_description=read('README.md'),
 )

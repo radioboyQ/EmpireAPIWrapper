@@ -221,18 +221,28 @@ class modules(object):
         full_url = '/api/modules/{}'.format(name)
         return utilties._getURL(self, full_url)
 
-    def exec_module(self, name, options):
+    def module_exec(self, name, options):
         """
         Execute the given module with the specified options
         Requires Agent to be in options
 
         :param options: Dictionary of module options
         :type options: dict
-        :return: dict
+        :rtype: dict
         """
         full_url = '/api/modules/{}'.format(name)
-        return utilties._postURL(self,full_url, options)
+        return utilties._postURL(self, full_url, options)
 
+    def module_search(self, srch_str):
+        """
+        Search modules for passed term
+        :param srch_str: Search term
+        :type srch_str: str
+        :return: dict of results
+        :rtype: dict
+        """
+        full_url = '/api/modules/search'
+        return utilties._postURL(self, full_url, srch_str)
 
 class agents(object):
 
@@ -244,6 +254,32 @@ class agents(object):
         full_url = '/api/agents'
         return utilties._getURL(self, full_url)
 
+    def agents_stale(self):
+        """
+        Return a list of stale agents
+        :rtype: dict
+        """
+        full_url = '/api/agents/stale'
+        return utilties._getURL(self, full_url)
+
+    def agent_shell_buffer(self, agent_name):
+        """
+        Returns buffer for given agent
+        :param agent_name: Agent name as string
+        :rtype: dict
+        """
+        final_url = '/api/agents/{}/results'.format(agent_name)
+        return utilties._getURL(self, full_url)
+
+    def agent_run_shell_cmd(self, agent_name, options):
+        """
+        Task agent to run shell commdn
+        :param agent_name: Agent name
+        :param options: Dict of command
+        :rtype: dict
+        """
+        final_url = '/api/agents/{}/shell'.format(agent_name)
+        return utilties._postURL(self, final_url, payload=options)
 
 class empireAPI(utilties, admin, reporting, stagers, modules, agents):
 
@@ -315,7 +351,6 @@ class methods:
 
     @staticmethod
     def httpErrors(resp):
-        print(resp)
         status_code = resp.status_code
 
         if status_code == 400:

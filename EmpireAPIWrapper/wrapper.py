@@ -114,6 +114,17 @@ class utilties(object):
         resp = methods.get(full_url, self.sess)
         return resp.json()
 
+    def _postURL(self, url, payload=None):
+        """
+        Base for simple GET requests
+        :param url:
+        :param data:
+        :return:
+        """
+        full_url = self._url_builder(url)
+        resp = methods.post(full_url, self.sess, data=payload)
+        return resp.json()
+
 class reporting(object):
     """Class to hold all the report endpoints"""
 
@@ -223,10 +234,18 @@ class modules(object):
         return utilties._postURL(self,full_url, options)
 
 
+class agents(object):
+
+    def agents(self):
+        """
+        Return a list of all agents
+        :return: dict
+        """
+        full_url = '/api/agents'
+        return utilties._getURL(self, full_url)
 
 
-
-class empireAPI(utilties, admin, reporting, stagers):
+class empireAPI(utilties, admin, reporting, stagers, modules, agents):
 
     def __init__(self, host, port=1337, verify=False, token=None, uname=None, passwd=None):
         """
@@ -295,25 +314,27 @@ class methods:
     """All HTTP methods in use"""
 
     @staticmethod
-    def httpErrors(status_code):
+    def httpErrors(resp):
+        print(resp)
+        status_code = resp.status_code
+
         if status_code == 400:
             # Bad Request
-            raise HTTPError.BadRequest('Bad Request. Check your data.') from None
+            raise HTTPError.BadRequest(resp.json()['error']) from None
         elif status_code == 401:
             # Unauthorized
-            raise HTTPError.UnAuthorized('HTTP 401: Unauthorized; check your permissions or token.') from None
+            raise HTTPError.UnAuthorized(resp.json()['error']) from None
         elif status_code == 405:
-            raise HTTPError.MethodNotAllowed('Wrong HTTP method used.') from None
+            raise HTTPError.MethodNotAllowed(resp.json()['error']) from None
         elif status_code != 200:
-            raise HTTPError.UnKnownHTTPError('Unknown HTTP error occurred. Error {}'.format(status_code)) from None
+            raise HTTPError.UnKnownHTTPError(resp.json()['error']) from None
 
     @staticmethod
     def get(url, sess):
         """Make a GET request"""
         r = sess.get(url)
-
         # Check for errors
-        methods.httpErrors(r.status_code)
+        methods.httpErrors(r)
 
         # No news is good news
         return r
@@ -325,7 +346,7 @@ class methods:
         # dumps is there to ensure the data is properly formatted
         r = sess.post(url, data=json.dumps(data))
         # Check for errors
-        methods.httpErrors(r.status_code)
+        methods.httpErrors(r)
 
         # No news is good news
         return r

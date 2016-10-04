@@ -7,5 +7,9 @@ API_PATH = {
     'shutdown': '/api/admin/shutdown',
     'restart': '/api/admin/restart',
     'permanenttoken': '/api/admin/permanenttoken',
+    'report': '/api/reporting',
+    'report_agent': '/api/reporting/agent/',
+    'report_type': '/api/report/type/',
+    'report_msg': '/api/report/msg/',
 
 }

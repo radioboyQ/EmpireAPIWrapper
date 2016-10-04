@@ -87,6 +87,14 @@ class utilties(object):
         # resp = methods.get(full_url, self.sess)
         # return resp.json()
 
+    def getCreds(self):
+        """
+        Get the credentials stored in the database
+        :return: dict
+        """
+        full_url = '/api/creds'
+        return self._getURL(full_url)
+
     def _checkToken(self):
         """
         Check if the token provided is authentic
@@ -150,6 +158,8 @@ class reporting(object):
         """
         full_url = '/api/reporting/msg/{}'.format(msg_str)
         return utilties._getURL(self, full_url)
+
+
 
 class empireAPI(utilties, admin, reporting):
 

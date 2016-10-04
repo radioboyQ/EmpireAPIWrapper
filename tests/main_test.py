@@ -12,6 +12,8 @@ api = EmpireAPIWrapper.empireAPI('10.15.20.157', uname='empireadmin', passwd='Pa
 # print(api.getMap())
 # print(api.getConfig())
 # print(api.getPermToken())
+# print(api.getCreds())
+
 
 ##### Reporting
 # print(api.report())

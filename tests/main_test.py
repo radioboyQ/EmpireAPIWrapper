@@ -18,3 +18,8 @@ api = EmpireAPIWrapper.empireAPI('10.15.20.157', uname='empireadmin', passwd='Pa
 ##### Reporting
 # print(api.report())
 # print(api.report_agent('UG3YT4FNPRSKRZHA'))
+
+##### Stagers
+# print(api.get_stagers())
+# print(api.get_stager_by_name('launcher'))
+print(api.gen_stager(StagerName='launcher', listener='victor'))

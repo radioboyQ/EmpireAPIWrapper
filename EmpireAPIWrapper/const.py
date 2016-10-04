@@ -12,4 +12,8 @@ API_PATH = {
     'report_type': '/api/report/type/',
     'report_msg': '/api/report/msg/',
     'creds': '/api/creds',
+    'all_stagers': '/api/stagers',
+    'stager_info': '/api/stager/',
+    'gen_stager': '/api/stagers/',
+    
 }

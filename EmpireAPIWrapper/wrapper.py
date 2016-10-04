@@ -120,10 +120,10 @@ class reporting(object):
     def report(self):
         """
         Return all logged events
-        :return:
+        :return: dict
         """
-        report_url = '/api/reporting'
-        return utilties._getURL(self, report_url)
+        full_url = '/api/reporting'
+        return utilties._getURL(self, full_url)
 
     def report_agent(self, agent_id):
         """
@@ -159,9 +159,45 @@ class reporting(object):
         full_url = '/api/reporting/msg/{}'.format(msg_str)
         return utilties._getURL(self, full_url)
 
+class stagers(object):
+
+    def get_stagers(self):
+        """
+        Return all current stagers
+        :return: dict
+        """
+        full_url = '/api/reporting'
+        return utilties._getURL(self, full_url)
+
+    def get_stager_by_name(self, name):
+        """
+        Get stager by name
+        :param name: Name of stager to return
+        :return: dict
+        """
+        full_url = '/api/stagers/{}'.format(name)
+        return utilties._getURL(self, full_url)
+
+    def gen_stager(self, StagerName, listener, **kwargs):
+        """
+        Generate a stager
+        :param StagerName: Name of stager to call
+        :param Listener: Name of valid listener
+        :param kwargs: Other options
+        :return: dict
+        """
+        full_url = '/api/stagers'
+        full_url = self._url_builder(full_url)
+        payload = {'Listener': listener, 'StagerName': StagerName}
+        return methods.post(full_url, self.sess, data=payload).json()
 
 
-class empireAPI(utilties, admin, reporting):
+
+
+
+
+
+class empireAPI(utilties, admin, reporting, stagers):
 
     def __init__(self, host, port=1337, verify=False, token=None, uname=None, passwd=None):
         """

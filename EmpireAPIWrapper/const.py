@@ -15,5 +15,4 @@ API_PATH = {
     'all_stagers': '/api/stagers',
     'stager_info': '/api/stager/',
     'gen_stager': '/api/stagers/',
-    
 }

@@ -2,4 +2,3 @@
 
 class NoAuthenticationProvided(Exception):
     """No authentication was provided when instantiating the module."""
-    

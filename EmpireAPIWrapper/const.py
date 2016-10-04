@@ -11,5 +11,4 @@ API_PATH = {
     'report_agent': '/api/reporting/agent/',
     'report_type': '/api/report/type/',
     'report_msg': '/api/report/msg/',
-
 }

@@ -17,4 +17,3 @@ class HTTPError(Exception):
         """Wrong HTTP method used; HTTP 405"""
     class UnKnownHTTPError(Exception):
         """HTTP Error catch all"""
-

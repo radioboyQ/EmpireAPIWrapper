@@ -191,7 +191,36 @@ class stagers(object):
         payload = {'Listener': listener, 'StagerName': StagerName}
         return methods.post(full_url, self.sess, data=payload).json()
 
+class modules(object):
 
+    def modules(self):
+        """
+        All current modules
+        :return:
+        """
+        full_url = '/api/modules'
+        return utilties._getURL(self, full_url)
+
+    def module_by_name(self, name):
+        """
+        Return all modules with specified name
+        :param name: Name of stager
+        :return: dict
+        """
+        full_url = '/api/modules/{}'.format(name)
+        return utilties._getURL(self, full_url)
+
+    def exec_module(self, name, options):
+        """
+        Execute the given module with the specified options
+        Requires Agent to be in options
+
+        :param options: Dictionary of module options
+        :type options: dict
+        :return: dict
+        """
+        full_url = '/api/modules/{}'.format(name)
+        return utilties._postURL(self,full_url, options)
 
 
 

@@ -4,6 +4,8 @@ class NoAuthenticationProvided(Exception):
     """No authentication was provided when instantiating the module."""
 class InvalidToken(Exception):
     """Token is not valid."""
+class InvalidLoggingType(Exception):
+    """Requesting logs for events that don't exist"""
 
 class HTTPError(Exception):
     """Generic HTTP Error"""

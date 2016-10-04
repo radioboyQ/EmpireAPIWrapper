@@ -5,21 +5,6 @@ from .Exceptions import *
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-class utilties(object):
-    """Utility HTTP methods"""
-
-    def check_version(self):
-        """
-        Check the version of Empire
-        :param token: Token for authentication
-        :return: Version number
-        :return type: str
-        """
-        version_url = '/api/version'
-        full_url = self._url_builder(version_url)
-        resp = methods.get(full_url, self.sess)
-        return resp
-
 class admin(object):
     """Administrative functions"""
 
@@ -39,11 +24,88 @@ class admin(object):
         Get the permanent token for the server
         :return: Permanent token
         """
-        perm_token_url = 'api/admin/permanenttoken'
-        full_url = self._url_builder(perm_token_url)
+        perm_token_url = '/api/admin/permanenttoken'
+        return utilties._getURL(self, perm_token_url)
+
+    def shutdownServer(self):
+        """
+        Shutdown the rest server
+        :return: dict
+        """
+        shutdown_url = '/api/admin/shutdown'
+        return utilties._getURL(self, shutdown_url)
+        # full_url = self._url_builder(shutdown_url)
+        # resp = methods.get(full_url, self.sess)
+        # return resp.json()
+
+    def restartServer(self):
+        """
+        Restart RESTFul server
+        :return: dict
+        """
+        restart_url = '/api/admin/restart'
+        return utilties._getURL(self, restart_url)
+        # full_url = self._url_builder(restart_url)
+        # resp = methods.get(full_url, self.sess)
+        # return resp.json()
+
+class utilties(object):
+    """Utility HTTP methods"""
+
+    def check_version(self):
+        """
+        Check the version of Empire
+        :param token: Token for authentication
+        :return: Version number
+        :return type: dict
+        """
+        version_url = '/api/version'
+        return self._getURL(version_url)
+        # full_url = self._url_builder(version_url)
+        # resp = methods.get(full_url, self.sess)
+        # return resp.json()
+
+    def getMap(self):
+        """
+        Get API map from server.
+        :return: dict
+        """
+        map_url = '/api/map'
+        return self._getURL(map_url)
+        # full_url = self._url_builder(map_url)
+        # resp = methods.get(full_url, self.sess)
+        # return resp.json()
+
+    def getConfig(self):
+        """
+        Get configuration of current server
+        :return: dict
+        """
+        config_url = '/api/config'
+        return self._getURL(config_url)
+        # full_url = self._url_builder(config_url)
+        # resp = methods.get(full_url, self.sess)
+        # return resp.json()
+
+    def _checkToken(self):
+        """
+        Check if the token provided is authentic
+        :param token: Token provided
+        :return: bool
+        """
+        # Check the version of Empire; no news is good news.
+        resp = utilties.check_version(self)
+
+    def _getURL(self, url):
+        """
+        Base for simple GET requests
+        :param url:
+        :return:
+        """
+        full_url = self._url_builder(url)
         resp = methods.get(full_url, self.sess)
-        perm_token_dict = resp.json
-        print(perm_token_dict)
+        return resp.json()
+
 
 
 class empireAPI(utilties, admin):
@@ -86,7 +148,7 @@ class empireAPI(utilties, admin):
         self.sess.verify = False
         self.sess.headers = {'Content-Type': 'application/json'}
 
-        # If token is provided, check the version
+        # If token is provided, check the version to make sure it works
         if token is not None:
             self._checkToken()
         else:
@@ -99,8 +161,9 @@ class empireAPI(utilties, admin):
         :param resource_location: Leading slash all the way to but not including the ?
         :return: URI in a string.
         """
-        return '{base}:{port}{location}?token={token}'.format(base=self.host, port=self.port,
+        url = '{base}:{port}{location}?token={token}'.format(base=self.host, port=self.port,
                                                               location=resource_location, token=self.token)
+        return url
 
     def _url_builder_no_token(self, resource_location):
         """

@@ -17,6 +17,6 @@ API_PATH = {
     'gen_stager': '/api/stagers/',
     'all_modules': '/api/modules',
     'module_name': '/api/modules/',
-    'exec_module': '/api/module/',
+    'module_exec': '/api/module/',
     'search_module': '/api/modules/search'
 }

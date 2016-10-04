@@ -106,9 +106,52 @@ class utilties(object):
         resp = methods.get(full_url, self.sess)
         return resp.json()
 
+class reporting(object):
+    """Class to hold all the report endpoints"""
 
+    def report(self):
+        """
+        Return all logged events
+        :return:
+        """
+        report_url = '/api/reporting'
+        return utilties._getURL(self, report_url)
 
-class empireAPI(utilties, admin):
+    def report_agent(self, agent_id):
+        """
+        Get all logged events for a specific agent
+        :param agent_id: Agent name
+        :type agent_id: str
+        :return: dict
+        """
+        full_url = '/api/reporting/agent/{}'.format(agent_id)
+        return utilties._getURL(self, full_url)
+
+    def report_type(self, type_id):
+        """
+        Get all logged events of a specific type. Only accept event types named: checkin, task, result, rename
+        :param type_id: Event type as string
+        :type type_id: str
+        :return: dict
+        """
+        valid_type = ['checkin', 'task', 'result', 'rename']
+        if type_id in valid_type:
+            full_url = '/api/reporting/type/{}'.format(type_id)
+            return utilties._getURL(self, full_url)
+        else:
+            raise InvalidLoggingType('The event type {} does not exist.'.format(type_id)) from None
+
+    def report_msg(self, msg_str):
+        """
+        Return all logged events matching message Z, wildcards accepted
+        :param msg_str: Message to search for
+        :type msg_str: str
+        :return: dict
+        """
+        full_url = '/api/reporting/msg/{}'.format(msg_str)
+        return utilties._getURL(self, full_url)
+
+class empireAPI(utilties, admin, reporting):
 
     def __init__(self, host, port=1337, verify=False, token=None, uname=None, passwd=None):
         """

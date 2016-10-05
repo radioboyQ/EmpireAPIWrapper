@@ -119,7 +119,7 @@ class utilties(object):
         Base for simple GET requests
         :param url:
         :param data:
-        :return:
+        :rtype: dict
         """
         full_url = self._url_builder(url)
         resp = methods.post(full_url, self.sess, data=payload)

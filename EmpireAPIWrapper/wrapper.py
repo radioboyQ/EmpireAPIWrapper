@@ -125,6 +125,16 @@ class utilties(object):
         resp = methods.post(full_url, self.sess, data=payload)
         return resp.json()
 
+    def _delURL(self, url):
+        """
+        Make DELETE request
+        :param url:
+        :rtype: dict
+        """
+        full_url = self._url_builder(url)
+        resp = methods.del_req(full_url, self.sess)
+        return resp.json()
+
 class reporting(object):
     """Class to hold all the report endpoints"""
 

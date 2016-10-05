@@ -272,14 +272,39 @@ class agents(object):
         full_url = '/api/agents/stale'
         return utilties._getURL(self, full_url)
 
+    def agents_del_stale(self):
+        """
+        Delete stale agents
+        :rtype: dict
+        """
+        full_url = '/api/agents/stale'
+        return utilties._delURL(self, full_url)
+
+    def agents_remove(self, name):
+        """
+        Remove agents from database
+        :rtype: dict
+        """
+        full_url = '/api/agents/{}'.format(name)
+        return utilties._delURL(self, full_url)
+
+    def agent_info(self, name):
+        """
+        Returns JSON describing the agent specified by name.
+        :param name:
+        :rtype: dict
+        """
+        full_url = '/api/agents/{}'.format(name)
+        return utilties._getURL(self, full_url)
+
     def agent_shell_buffer(self, agent_name):
         """
-        Returns buffer for given agent
+        Return tasking results for the agent
         :param agent_name: Agent name as string
         :rtype: dict
         """
         final_url = '/api/agents/{}/results'.format(agent_name)
-        return utilties._getURL(self, full_url)
+        return utilties._getURL(self, final_url)
 
     def agent_run_shell_cmd(self, agent_name, options):
         """
@@ -290,6 +315,34 @@ class agents(object):
         """
         final_url = '/api/agents/{}/shell'.format(agent_name)
         return utilties._postURL(self, final_url, payload=options)
+
+    def agent_rename(self, current_name, new_name):
+        """
+        Renames the specified agent
+        :param current_name:
+        :param new_name:
+        :return:
+        """
+        # Takes {'newname':'NAME'}
+        final_url = '/api/agents/{}/rename'.format(current_name)
+        options = {'newname': 'new_name'}
+        return utilties._postURL(self, final_url, payload=options)
+
+    def agent_clear_buff(self, name):
+        """
+        Clears the tasking buffer for the specified agent
+        :rtype: dict
+        """
+        final_url = '/api/agents/{}/clear'.format(name)
+        return utilties._getURL(self, final_url)
+
+    def agent_kill(self, name):
+        """
+        Tasks the specified agent to exit
+        :rtype: dict
+        """
+        final_url = '/api/agents/{}/kill'.format(name)
+        return utilties._getURL(self, final_url)
 
 class empireAPI(utilties, admin, reporting, stagers, modules, agents):
 
@@ -390,6 +443,16 @@ class methods:
 
         # dumps is there to ensure the data is properly formatted
         r = sess.post(url, data=json.dumps(data))
+        # Check for errors
+        methods.httpErrors(r)
+
+        # No news is good news
+        return r
+
+    @staticmethod
+    def del_req(url, sess):
+        """Make DELETE request"""
+        r = sess.delete(url)
         # Check for errors
         methods.httpErrors(r)
 

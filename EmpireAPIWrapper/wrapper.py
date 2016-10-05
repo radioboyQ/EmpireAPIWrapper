@@ -248,11 +248,54 @@ class modules(object):
         Search modules for passed term
         :param srch_str: Search term
         :type srch_str: str
-        :return: dict of results
         :rtype: dict
         """
         full_url = '/api/modules/search'
-        return utilties._postURL(self, full_url, srch_str)
+        data = {'term': srch_str}
+        return utilties._postURL(self, full_url, data)
+
+    def module_search_name(self, mod_name):
+        """
+        Searches module names for a specific term
+        :rtype name: str
+        :rtype: dict
+        """
+        # Takes {'term':'desc'}
+        full_url = '/api/modules/search/modulename'
+        data = {'term': mod_name}
+        return utilties._postURL(self, full_url, data)
+
+    def module_search_desc(self, desc):
+        """
+        Searches module descriptions for a specific term
+        :rtype desc: str
+        :rtype: dict
+        """
+        # Takes {'term':'desc'}
+        full_url = '/api/modules/search/description'
+        data = {'term': desc}
+        return utilties._postURL(self, full_url, data)
+
+    def module_search_comment(self, comment):
+        """
+        Searches module comments for a specific term
+        :type comment: str
+        :rtype: dict
+        """
+        # Takes {'term':'desc'}
+        full_url = '/api/modules/search/comments'
+        data = {'term': comment}
+        return utilties._postURL(self, full_url, data)
+
+    def module_search_author(self, author):
+        """
+        Searches module authors for a specific term
+        :type author: str
+        :return:
+        """
+        full_url = '/api/modules/search/author'
+        data ={'term': author}
+        return utilties._postURL(self, full_url, data)
 
 class agents(object):
 

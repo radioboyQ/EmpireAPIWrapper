@@ -391,11 +391,11 @@ class empireAPI(utilties, admin, reporting, stagers, modules, agents):
 
     def __init__(self, host, port=1337, verify=False, token=None, uname=None, passwd=None):
         """
-        Information for the start of the class. You must include either a tolken or a username and password
+        Information for the start of the class. You must include either a token or a username and password
         :param host: IP or domain name to connect to
         :param port: Port to connect to
         :param verify: Requests verify the SSL chain
-        :param token: Tolken to authenticate with
+        :param token: Token to authenticate with
         :param uname: Username to authenticate with
         :param passwd: Password to authenticate with
         """

@@ -7,6 +7,11 @@ class InvalidToken(Exception):
 class InvalidLoggingType(Exception):
     """Requesting logs for events that don't exist"""
 
+class SQLError(Exception):
+    """Generic SQL Error"""
+    class SQLDBNonExist(Exception):
+        """SQL DB Not Found"""
+
 class HTTPError(Exception):
     """Generic HTTP Error"""
     class BadRequest(Exception):
